@@ -1,0 +1,34 @@
+name: image builder
+
+on:
+  pull_request:
+    types: [opened, reopened, edited, synchronize]
+
+env:
+  latesttag: latest
+
+jobs:
+
+  build-podman-init:
+    name: Build podman-init image using buildah
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Get branch name
+      id: branch-name
+      uses: tj-actions/branch-names@v5
+
+    - name: Set latest tag for non master branch
+      if: "${{ steps.branch-name.outputs.current_branch != 'master' }}"
+      run: |
+        echo "latesttag=${{ steps.branch-name.outputs.current_branch }}-latest" >> $GITHUB_ENV
+
+    - name: Buildah Action
+      id: build-podman-init
+      uses: redhat-actions/buildah-build@v2
+      with:
+        image: podman-init
+        tags: ${{ env.latesttag }} ${{ github.sha }}
+        containerfiles: |
+          ./Containerfile

@@ -13,7 +13,7 @@ RUN dnf -y install procps-ng && dnf clean all
 # add customization here
 RUN dnf -y install sudo openssh openssh-server && dnf clean all
 RUN groupadd stack && useradd -g stack -s /bin/bash -m stack && ( umask 226 && echo "stack ALL=(ALL) NOPASSWD:ALL" \
-    > /etc/sudoers.d/50_stack_sh ) && mkdir /home/stack/.ssh
+    > /etc/sudoers.d/50_stack_sh ) && mkdir /home/stack/.ssh && chown stack:stack /home/stack/.ssh
 COPY --chown=stack:stack ./stack_ed25519 /home/stack/.ssh/stack_ed25519
 COPY --chown=stack:stack ./stack_ed25519.pub /home/stack/.ssh/stack_ed25519.pub
 COPY --chown=stack:stack ./stack_ed25519.pub /home/stack/.ssh/authorized_keys

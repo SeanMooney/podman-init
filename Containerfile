@@ -17,5 +17,6 @@ RUN groupadd stack && useradd -g stack -s /bin/bash -m stack && ( umask 226 && e
 COPY --chown=stack:stack ./stack_ed25519 /home/stack/.ssh/stack_ed25519
 COPY --chown=stack:stack ./stack_ed25519.pub /home/stack/.ssh/stack_ed25519.pub
 COPY --chown=stack:stack ./stack_ed25519.pub /home/stack/.ssh/authorized_keys
+COPY --chown=stack:stack ./ssh-config /home/stack/.ssh/config
 RUN chmod 600 /home/stack/.ssh/*
 EXPOSE 22/tcp

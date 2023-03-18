@@ -1,0 +1,6 @@
+Host *
+  ForwardX11 yes
+  ForwardAgent yes
+  Protocol 2
+  TCPKeepAlive yes
+  IdentityFile ~/.ssh/stack_ed25519
